@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ACADEMY23 - Curiosidades de Programación y Electrónica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts for Futuristic Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #e0e0e0;
+            font-family: 'Orbitron', Arial, sans-serif;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem 1rem 3rem;
+            background: rgba(20, 30, 48, 0.95);
+            border-bottom: 2px solid #00ffe7;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #00ffe7;
+            text-shadow: 0 0 10px #00ffe7, 0 0 20px #00ffe7;
+        }
+        .acronym {
+            position: relative;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ff00cc;
+            background: #0f2027;
+            padding: 0.5rem 1.2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 0 12px #ff00cc, 0 0 24px #00ffe7;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .acronym:hover {
+            background: #1a1a2e;
+        }
+        .acronym-tooltip {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: #222831;
+            color: #00ffe7;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            white-space: nowrap;
+            box-shadow: 0 0 10px #00ffe7;
+            z-index: 10;
+        }
+        .acronym:hover .acronym-tooltip {
+            display: block;
+        }
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(34, 40, 49, 0.95);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 30px #00ffe7;
+        }
+        h1, h2, h3 {
+            color: #00ffe7;
+            text-shadow: 0 0 8px #00ffe7;
+        }
+        .curiosity-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            align-items: center;
+        }
+        .curiosity-section img {
+            max-width: 320px;
+            border-radius: 1rem;
+            box-shadow: 0 0 16px #ff00cc;
+            margin-right: 2rem;
+        }
+        .curiosity-text {
+            flex: 1;
+            min-width: 250px;
+        }
+        .neon-divider {
+            border: none;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffe7 0%, #ff00cc 100%);
+            margin: 2rem 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #00ffe7;
+        }
+        /* Certificate Checker Styles */
+        #cert-checker-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #00ffe7;
+            color: #222831;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 2rem;
+            padding: 1rem 2rem;
+            box-shadow: 0 0 20px #00ffe7, 0 0 40px #ff00cc;
+            cursor: pointer;
+            z-index: 100;
+            transition: background 0.2s, color 0.2s;
+        }
+        #cert-checker-btn:hover {
+            background: #ff00cc;
+            color: #fff;
+        }
+        #cert-modal {
+            display: none;
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            background: #222831;
+            border: 2px solid #00ffe7;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 0 30px #00ffe7;
+            z-index: 200;
+            min-width: 320px;
+        }
+        #cert-modal input {
+            width: 80%;
+            padding: 0.7rem;
+            border-radius: 0.5rem;
+            border: 1px solid #00ffe7;
+            background: #1a1a2e;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        #cert-modal button {
+            background: #00ffe7;
+            color: #222831;
+            border: none;
+            border-radius: 1rem;
+            padding: 0.7rem 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #cert-modal button:hover {
+            background: #ff00cc;
+            color: #fff;
+        }
+        #diploma {
+            display: none;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, #00ffe7 0%, #ff00cc 100%);
+            color: #222831;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 30px #00ffe7;
+            font-size: 1.2rem;
+            font-family: 'Orbitron', Arial, sans-serif;
+            animation: diploma-pop 0.7s;
+        }
+        @keyframes diploma-pop {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            main { padding: 1rem; }
+            .curiosity-section { flex-direction: column; }
+            .curiosity-section img { margin-right: 0; margin-bottom: 1rem; }
+        }
+        @media (max-width: 600px) {
+            header { flex-direction: column; padding: 1rem; }
+            .logo { font-size: 1.5rem; }
+            .acronym { font-size: 1rem; padding: 0.3rem 0.7rem; }
+            main { padding: 0.5rem; }
+            #cert-modal { min-width: 200px; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ACADEMY23</div>
+        <div class="acronym">
+            CDPP
+            <span class="acronym-tooltip">Curso De Programacion Profesional</span>
+        </div>
+    </header>
+    <main>
+        <h1>Curiosidades sobre Programación y Electrónica</h1>
+        <hr class="neon-divider">
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Código en pantalla">
+            <div class="curiosity-text">
+                <h2>¿Sabías que el primer programador fue una mujer?</h2>
+                <p>
+                    Ada Lovelace, hija del poeta Lord Byron, es considerada la primera programadora de la historia. En 1843, escribió el primer algoritmo destinado a ser procesado por una máquina, la máquina analítica de Charles Babbage. Su visión fue tan avanzada que predijo que las computadoras podrían crear música y gráficos mucho antes de que existieran.
+                </p>
+            </div>
+        </section>
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80" alt="Placa electrónica">
+            <div class="curiosity-text">
+                <h2>El microchip más pequeño del mundo</h2>
+                <p>
+                    En 2021, investigadores de la Universidad de Columbia crearon el microchip más pequeño jamás fabricado, del tamaño de un ácaro de polvo. Este chip puede ser inyectado en el cuerpo humano y monitorear procesos biológicos, abriendo nuevas fronteras en la medicina y la electrónica.
+                </p>
+            </div>
+        </section>
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" alt="Lenguajes de programación">
+            <div class="curiosity-text">
+                <h2>¡Existen más de 700 lenguajes de programación!</h2>
+                <p>
+                    Aunque los más populares son Python, JavaScript, Java y C++, existen cientos de lenguajes de programación, cada uno diseñado para resolver problemas específicos. Algunos, como Brainfuck o Whitespace, fueron creados como experimentos o bromas, ¡pero son totalmente funcionales!
+                </p>
+            </div>
+        </section>
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Robótica y electrónica">
+            <div class="curiosity-text">
+                <h2>La electrónica está en todas partes</h2>
+                <p>
+                    Desde tu reloj inteligente hasta los satélites en el espacio, la electrónica es la base de la tecnología moderna. Los microcontroladores como Arduino y Raspberry Pi han democratizado el acceso a la electrónica, permitiendo que cualquier persona pueda crear proyectos increíbles desde casa.
+                </p>
+            </div>
+        </section>
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Inteligencia Artificial">
+            <div class="curiosity-text">
+                <h2>La Inteligencia Artificial aprende como los humanos</h2>
+                <p>
+                    Los algoritmos de aprendizaje profundo están inspirados en el cerebro humano. Las redes neuronales artificiales pueden reconocer imágenes, traducir idiomas y hasta crear arte. ¡Hoy en día, la IA está presente en asistentes virtuales, autos autónomos y hasta en la detección de enfermedades!
+                </p>
+            </div>
+        </section>
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" alt="Hardware antiguo">
+            <div class="curiosity-text">
+                <h2>El primer disco duro pesaba más de una tonelada</h2>
+                <p>
+                    El IBM 350, lanzado en 1956, fue el primer disco duro comercial. Tenía una capacidad de 5 megabytes y pesaba más de 1000 kg. Hoy, puedes llevar terabytes de información en una memoria USB que cabe en tu bolsillo.
+                </p>
+            </div>
+        </section>
+        <section class="curiosity-section">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Programador trabajando">
+            <div class="curiosity-text">
+                <h2>El "Hello World" es el primer paso</h2>
+                <p>
+                    La mayoría de los programadores comienzan aprendiendo a mostrar "Hello World" en pantalla. Este simple mensaje es una tradición que se remonta a los primeros manuales de programación y simboliza el inicio de un viaje en el mundo del código.
+                </p>
+            </div>
+        </section>
+        <hr class="neon-divider">
+        <h2>¿Sabías que...?</h2>
+        <ul>
+            <li>El lenguaje C fue creado en 1972 y aún es la base de muchos sistemas operativos modernos.</li>
+            <li>El primer videojuego, "Tennis for Two", fue creado en 1958 usando un osciloscopio.</li>
+            <li>El término "bug" en programación proviene de una polilla real encontrada en una computadora en 1947.</li>
+            <li>El Arduino fue inventado en Italia y su nombre proviene de un bar local.</li>
+            <li>El código fuente de la sonda Voyager 1, que aún viaja por el espacio, fue escrito en ensamblador.</li>
+        </ul>
+    </main>
+
+    <!-- Certificate Checker Button -->
+    <button id="cert-checker-btn">Comprobar Certificado</button>
+    <!-- Certificate Checker Modal -->
+    <div id="cert-modal">
+        <label for="cert-code">Introduce el código de certificado:</label><br>
+        <input type="text" id="cert-code" placeholder="Ej: 0000-0000-0000">
+        <button id="verify-cert">Verificar</button>
+        <div id="diploma">
+            <h2>¡Felicidades!</h2>
+            <p>
+                El estudiante <strong>Jefferson Steven Rodriguez Mendez</strong><br>
+                <span style="font-size:1.3rem;color:#ff1515;text-shadow:0 0 8px #000000;">Está Certificado de manera genuina y fue aprovado para continuar a el siguiente curso avanzado.</span>
+            </p>
+            <p style="margin-top:1rem;font-size:1.1rem;">
+                <strong>Código de Certificado:</strong> 3Y2D9H-OPC08-G56RV
+            </p>
+        </div>
+    </div>
+    <script>
+        // Certificate Checker Logic
+        const certBtn = document.getElementById('cert-checker-btn');
+        const certModal = document.getElementById('cert-modal');
+        const verifyBtn = document.getElementById('verify-cert');
+        const certCodeInput = document.getElementById('cert-code');
+        const diploma = document.getElementById('diploma');
+        let modalOpen = false;
+
+        certBtn.addEventListener('click', () => {
+            certModal.style.display = modalOpen ? 'none' : 'block';
+            modalOpen = !modalOpen;
+            diploma.style.display = 'none';
+            certCodeInput.value = '';
+            certCodeInput.focus();
+        });
+
+        verifyBtn.addEventListener('click', () => {
+            const code = certCodeInput.value.trim();
+            if (code === '3Y2D9H-OPC08-G56RV') {
+                diploma.style.display = 'block';
+            } else {
+                diploma.style.display = 'none';
+                alert('Código incorrecto. Intenta nuevamente.');
+            }
+        });
+
+        // Close modal if clicked outside
+        document.addEventListener('mousedown', function(event) {
+            if (modalOpen && !certModal.contains(event.target) && event.target !== certBtn) {
+                certModal.style.display = 'none';
+                modalOpen = false;
+            }
+        });
+
+        // Enter key submits code
+        certCodeInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') verifyBtn.click();
+        });
+    </script>
+</body>
+</html>
